@@ -1,21 +1,39 @@
 require 'open-uri'
+require 'ipaddr'
+require 'date'
 
-open('http://www.spamhaus.org/drop/drop.lasso') do |drop_data|
+@@network_addresses = []
+
+class NetworkAddress
+  def initialize(ipaddress, netmask)
+    @ipaddress = ipaddress
+    @netmask   = cidr_to_netmask(netmask)
+  end
+
+  def cidr_to_netmask(cidr)
+    IPAddr.new('255.255.255.255').mask(cidr).to_s
+  end
+
+  def to_s
+    "ip route #{@ipaddress} #{@netmask} null0 desc #{Date.today.to_s}_SPAMHAUS-DROP"
+  end
+end
+
+#open('http://www.spamhaus.org/drop/drop.lasso') do |drop_data|
+open('http://www.okean.com/chinacidr.txt') do |drop_data|
   drop_data.each do |line|
-    address, sc, sbl = line.chomp.split()
-    network, mask = address.split(/\//)
-    puts network
-    puts mask
+    address = line.scan(/\b(?:\d{1,3}\.){3}\d{1,3}\b\/\d{1,2}\b/)
+    address.each do |cidr|
+      network, mask = cidr.split(/\//)
+      @@network_addresses << NetworkAddress.new(network, mask)
+      #puts n1
+      #puts network
+      #puts mask
+    end
   end
 end
 
 
-
-class NetworkAddress
-  attr_accessor :ipaddress, :netmask
-
-  def initialize(ipaddress, netmask)
-    @ipaddress = ipaddress
-    @netmask   = netmask
-  end
+@@network_addresses.each do |route|
+  puts route
 end
