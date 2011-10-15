@@ -15,7 +15,7 @@ class NetworkAddress
   end
 
   def to_s
-    "ip route #{@ipaddress} #{@netmask} null0 desc #{Date.today.to_s}_SPAMHAUS-DROP"
+    "ip route #{@ipaddress} #{@netmask} null0 description #{Date.today.to_s}_SPAMHAUS-DROP"
   end
 end
 
@@ -26,9 +26,6 @@ open('http://www.okean.com/chinacidr.txt') do |drop_data|
     address.each do |cidr|
       network, mask = cidr.split(/\//)
       @@network_addresses << NetworkAddress.new(network, mask)
-      #puts n1
-      #puts network
-      #puts mask
     end
   end
 end
