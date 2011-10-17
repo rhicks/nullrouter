@@ -7,7 +7,7 @@ require 'date'
 class NetworkAddress
   def initialize(ipaddress, cidr)
     @ipaddress = ipaddress
-    @cider     = cidr
+    @cidr     = cidr
     @netmask   = cidr_to_netmask(cidr)
   end
 
