@@ -5,9 +5,10 @@ require 'date'
 @@network_addresses = []
 
 class NetworkAddress
-  def initialize(ipaddress, netmask)
+  def initialize(ipaddress, cidr)
     @ipaddress = ipaddress
-    @netmask   = cidr_to_netmask(netmask)
+    @cider     = cidr
+    @netmask   = cidr_to_netmask(cidr)
   end
 
   def cidr_to_netmask(cidr)
