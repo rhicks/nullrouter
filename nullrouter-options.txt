@@ -1,0 +1,17 @@
+nullrouter.rb -s
+
+Providers:
+-Ss = SpamHAUS DROP Data (Default) -- http://www.spamhaus.org/drop/drop.lasso
+-Sc = China Blocks for Okean -- http://www.okean.com/chinacidr.txt
+-Sk = Korea Blocks from Okean -- http://www.okean.com/koreacidr.txt
+-Sz = Custom URL
+
+-Tn = Null Routes (Default)
+-Tp = Cisco PIX/ASA ACL
+-Ta ### = Cisco Router ACL (Need to provide ACL number) -- access-list yyy deny tcp 1.0.8.0 0.0.7.255 host zzz.zzz.zzz.zzz eq smtp    !China
+-Tj = JUNOS ACL - set prefix-list prefix-name 192.168.0.0/16
+-Ts = Juniper ScreenOS ACL - 
+-Ti = IPTables -- http://www.okean.com/antispam/iptables/rc.firewall.china
+-Th = htaccess -- http://www.okean.com/antispam/cnkr_htaccess.txt
+
+-d = description added to the ACL's when appropriate
