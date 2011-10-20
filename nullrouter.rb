@@ -1,13 +1,17 @@
+#!/usr/bin/env ruby
+
 require 'open-uri'
 require 'ipaddr'
 require 'date'
+require 'optparse'
 
 @@network_addresses = []
 
 class NetworkAddress
-  def initialize(ipaddress, netmask)
+  def initialize(ipaddress, cidr)
     @ipaddress = ipaddress
-    @netmask   = cidr_to_netmask(netmask)
+    @cidr      = cidr
+    @netmask   = cidr_to_netmask(cidr)
   end
 
   def cidr_to_netmask(cidr)
@@ -19,8 +23,13 @@ class NetworkAddress
   end
 end
 
-#open('http://www.spamhaus.org/drop/drop.lasso') do |drop_data|
-open('http://www.okean.com/chinacidr.txt') do |drop_data|
+ARGV.each do|a|
+  puts "Argument: #{a}"
+end
+
+=begin
+#open('http://www.okean.com/chinacidr.txt') do |drop_data|
+open('http://www.spamhaus.org/drop/drop.lasso') do |drop_data|
   drop_data.each do |line|
     address = line.scan(/\b(?:\d{1,3}\.){3}\d{1,3}\b\/\d{1,2}\b/)
     address.each do |cidr|
@@ -34,3 +43,4 @@ end
 @@network_addresses.each do |route|
   puts route
 end
+=end
