@@ -23,6 +23,8 @@ class NetworkAddress
   end
 end
 
+=begin
+
 ARGV.each do|a|
   puts "Argument: #{a}"
 end
@@ -44,3 +46,78 @@ end
   puts route
 end
 =end
+
+# This hash will hold all of the options
+# parsed from the command-line by
+# OptionParser.
+options = {}
+ 
+optparse = OptionParser.new do|opts|
+  # Set a banner, displayed at the top
+  # of the help screen.
+  opts.banner = "Usage: nullrouter.rb -input -output"
+
+  # define the options, and what they do
+  options[:spamhaus] = false
+  opts.on( '-s', '--spamhaus', 'Input: Use Spamhaus DROP data (http://www.spamhaus.com/drop)' ) do
+    options[:spamhaus] = true
+  end
+  
+  options[:china] = false
+  opts.on( '-c', '--china', 'Input: Use Okean China data (http://www.okean.com/antispam/china.html)' ) do
+    options[:china] = true
+  end
+
+  options[:korea] = false
+  opts.on( '-k', '--korea', 'Input: Use Okean Korea data (http://www.okean.com/antispam/korea.html)' ) do
+    options[:korea] = true
+  end
+
+  options[:custom] = nil
+  opts.on( '-z', '--custom url', 'Input: Use a custom URL for data input' ) do|url|
+    options[:custom] = url 
+  end
+
+  options[:null] = false
+  opts.on( '-n', '--null description', 'Output: Cisco Null Routes with descriptions' ) do|desc|
+    options[:null] = desc 
+  end
+
+  options[:quick] = false
+  opts.on( '-q', '--quick', 'perform the task quickly' ) do
+    options[:quick] = true
+  end
+ 
+  options[:logfile] = nil
+  opts.on( '-l', '--logfile file', 'write log to file' ) do|file|
+    options[:logfile] = file
+  end
+ 
+  # this displays the help screen, all programs are
+  # assumed to have this option.
+  opts.on( '-h', '--help', 'display this screen' ) do
+    puts opts
+    exit
+  end
+end
+ 
+# Parse the command-line. Remember there are two forms
+# of the parse method. The 'parse' method simply parses
+# ARGV, while the 'parse!' method parses ARGV and removes
+# any options found there, as well as any parameters for
+# the options. What's left is the list of files to resize.
+optparse.parse!
+ 
+puts "Using Spamhaus DROP for input" if options[:spamhaus]
+puts "Using Okean China for input" if options[:china] 
+puts "Using Okean Korea for input" if options[:korea] 
+puts "Using #{options[:custom]} for input" if options[:custom]
+puts "Outputing Null Routes with a custom description of: #{options[:null]}" if options[:null]
+
+puts "Being quick" if options[:quick]
+puts "Logging to file #{options[:logfile]}" if options[:logfile]
+
+ARGV.each do|f|
+  puts "Resizing image #{f}..."
+  sleep 0.5
+end
