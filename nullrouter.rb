@@ -83,16 +83,6 @@ optparse = OptionParser.new do|opts|
     options[:null] = desc 
   end
 
-  options[:quick] = false
-  opts.on( '-q', '--quick', 'perform the task quickly' ) do
-    options[:quick] = true
-  end
- 
-  options[:logfile] = nil
-  opts.on( '-l', '--logfile file', 'write log to file' ) do|file|
-    options[:logfile] = file
-  end
- 
   # this displays the help screen, all programs are
   # assumed to have this option.
   opts.on( '-h', '--help', 'display this screen' ) do
@@ -107,6 +97,7 @@ end
 # any options found there, as well as any parameters for
 # the options. What's left is the list of files to resize.
 optparse.parse!
+puts opts if AGRV.size == nil
  
 puts "Using Spamhaus DROP for input" if options[:spamhaus]
 puts "Using Okean China for input" if options[:china] 
@@ -114,10 +105,4 @@ puts "Using Okean Korea for input" if options[:korea]
 puts "Using #{options[:custom]} for input" if options[:custom]
 puts "Outputing Null Routes with a custom description of: #{options[:null]}" if options[:null]
 
-puts "Being quick" if options[:quick]
-puts "Logging to file #{options[:logfile]}" if options[:logfile]
 
-ARGV.each do|f|
-  puts "Resizing image #{f}..."
-  sleep 0.5
-end
