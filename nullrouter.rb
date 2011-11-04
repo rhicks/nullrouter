@@ -23,13 +23,11 @@ class NetworkAddress
   end
 end
 
-=begin
 
 ARGV.each do|a|
   puts "Argument: #{a}"
 end
 
-=begin
 #open('http://www.okean.com/chinacidr.txt') do |drop_data|
 open('http://www.spamhaus.org/drop/drop.lasso') do |drop_data|
   drop_data.each do |line|
@@ -45,7 +43,6 @@ end
 @@network_addresses.each do |route|
   puts route
 end
-=end
 
 # This hash will hold all of the options
 # parsed from the command-line by
